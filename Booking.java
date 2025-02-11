@@ -1,35 +1,47 @@
 class Booking {
-    private String bookingId;
-    private String passengerId;
-    private String flightNumber;
-    private String seatNumber;
-    private String bookingDate;
-    private String status;
-    private double totalPrice;
-    private String paymentMethod;
+    private String origin;
+    private String destination;
+    private String depart;
+    private String returnDate; //For round trip
+    private int numOfPassenger;
 
-    // For Return Ticket
-    private boolean isRoundTrip;
-    private String returnFlightNumber;
-    private String returnDate;
-    private String returnSeatNumber;
+    private static int bookingId = 100000 ;
+    private String flightID;
+    private String seatClass;
+    private String returnFlightNumber; //For round trip
+    private String returnSeatClass;
+    private double price; //Per passenger
+    private double totalPrice; 
 
-    public Booking(String bookingId, String passengerId, String flightNumber, String seatNumber, String bookingDate, String status, double totalPrice, String paymentMethod, boolean isRoundTrip, String returnFlightNumber, String returnDate, String returnSeatNumber) {
-        this.bookingId = bookingId;
-        this.passengerId = passengerId;
-        this.flightNumber = flightNumber;
-        this.seatNumber = seatNumber;
-        this.bookingDate = bookingDate;
-        this.status = status;
-        this.totalPrice = totalPrice;
-        this.paymentMethod = paymentMethod;
-        this.isRoundTrip = isRoundTrip;
-        this.returnFlightNumber = returnFlightNumber;
-        this.seatNumber = returnSeatNumber;
-        this.bookingDate = returnDate;
-        this.status = status;
-        this.totalPrice = totalPrice;
+    //For one way ticket
+    public Booking(String origin, String destination, String depart, int numOfPassenger, String seatClass){
+        bookingId = bookingId + 1;
+        this.origin = origin;
+        this.destination = destination;
+        this.depart = depart;
+        this.numOfPassenger = numOfPassenger;
+        this.seatClass = seatClass;
     }
 
-    
+    //For round trip
+    public Booking(String origin, String destination, String depart, String returnDate, int numOfPassenger, String seatClass, String returnSeatClass){
+        bookingId = bookingId + 1;
+        this.origin = origin;
+        this.destination = destination;
+        this.depart = depart;
+        this.returnDate = returnDate;
+        this.numOfPassenger = numOfPassenger;   
+        this.seatClass = seatClass;
+        this.returnSeatClass = returnSeatClass;
+    }
+
+    public void bookingTicket(){
+        if(returnDate.length() == 0){
+            //For round trip
+            
+
+        }
+
+    }
+
 }
