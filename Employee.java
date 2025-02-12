@@ -37,7 +37,7 @@ public class Employee {
         if (salary >= 0) {
             this.salary = salary;
         } else {
-            throw new IllegalArgumentException("Salary cannot be negative.");
+            System.err.println ("Salary cannot be negative.");
         }
     }
 
