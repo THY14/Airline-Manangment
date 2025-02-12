@@ -75,7 +75,7 @@ class RoundTripBooking extends Booking {
     public RoundTripBooking(String origin, String destination, LocalDate depart, LocalDate returnDate, int numOfPassengers, double price, String seatClass, String returnSeatClass) {
         super(origin, destination, depart, numOfPassengers, seatClass, price);
         if (returnDate.isBefore(depart)) {
-            throw new IllegalArgumentException("Return date cannot be before departure date.");
+            System.out.println ("Return date cannot be before departure date.");
         }
         this.returnDate = returnDate;
         this.returnSeatClass = returnSeatClass;
