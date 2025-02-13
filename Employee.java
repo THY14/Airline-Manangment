@@ -19,4 +19,34 @@ public class Employee {
         this.department = department;
     }
 
+    public int getEmployeeID() { return employeeID; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getGender() { return gender; }
+    public String getDepartment() { return department; }
+
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setGender(String gender) { this.gender = gender; }
+    public void setDoB(String DoB) { this.DoB = DoB; }
+    public void setNationality(String nationality) { this.nationality = nationality; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public void setSalary(double salary) {
+        if (salary >= 0) {
+            this.salary = salary;
+        } else {
+            System.err.println ("Salary cannot be negative.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Employee ID: " + employeeID + ", Name: " + firstName + " " + lastName +
+               ", Gender: " + gender + ", Date of Birth: " + DoB + ", Nationality: " + nationality +
+               ", Email: " + email + ", Phone: " + phoneNumber + ", Position: " + position +
+               ", Department: " + department + ", Salary: $" + salary + ", Hire Date: " + hireDate;
+    }
+
 }

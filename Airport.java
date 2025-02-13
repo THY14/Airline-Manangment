@@ -18,15 +18,17 @@ public class Airport {
         this.totalPassengerTraffic = totalPassengerTraffic;
         this.international = international;
     }
-
-
     
-
     public String getCode() {
         return code;
     }
-    public void setCode(String code) {
-        this.code = code;
+    public void setCode(String oldcode , String newcode ) {
+        if(this.code.equals(oldcode)){
+            this.code = newcode;
+            System.out.println("Airport Code changed successfully");
+        }else{
+            System.out.println("Invalid old code");
+        }
     }
 
     public String getName() {
@@ -83,5 +85,16 @@ public class Airport {
     }
     public void setInternational(boolean international) {
         this.international = international;
+    }
+    public static void main(String[] args){
+        Airport airport = new Airport("NYC", "New York City", "New York", 1920, "USA", 10000000, true);
+        System.out.println("Airport Details:");
+        System.out.println("Code: " + airport.getCode());
+        System.out.println("Name: " + airport.getName());
+        System.out.println("Location: " + airport.getLocation());
+        System.out.println("Open Year: " + airport.getOpenyear());
+        System.out.println("Country: " + airport.getCountry());
+        System.out.println("Annual Flights: " + Airport.getAnnualFlights());
+        System.out.println("Average Passenger Traffic: " + airport.getAveragePassengerTraffic());
     }
 }
