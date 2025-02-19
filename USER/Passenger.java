@@ -1,8 +1,9 @@
+package USER;
 
 public class Passenger extends Person {
-    private String passportNumbers;
-    private static int totalPassengers = 0;
-    private String password;
+    protected String passportNumbers;
+    protected static int totalPassengers = 0;
+    protected String password;
         public Passenger(String passportNumbers, String password, int id, String firstname, String lastname, String tel, String email, String gender, String nationality,String dob) {
             super(id, firstname, lastname, tel, email, gender, nationality, dob);
             this.passportNumbers = passportNumbers;
