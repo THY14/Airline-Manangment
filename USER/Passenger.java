@@ -1,12 +1,11 @@
 package USER;
-
-
 import java.util.HashMap;
 
-public class Passenger extends Person implements UserInterface {
+public class Passenger extends Person implements UserAuthentication {
     protected String passportNumbers;
     protected static int totalPassengers = 0;
     protected String password;
+    static HashMap<String, String> users = new HashMap<>();
     
     // Static map to manage username-password pairs
     private static HashMap<String, String> userDatabase = new HashMap<>();
@@ -19,14 +18,13 @@ public class Passenger extends Person implements UserInterface {
     }
 
     // Implement the authenticate method from the UserInterface
-    @Override
     public boolean authenticate(String password) {
         return this.password.equals(password);  // Verifies if the entered password matches
     }
 
     // Register a user by adding username and password to the userDatabase
     @Override
-    public void registerUser(String username, String password) {
+    public void registerUser(String username, String password, String ) {
         if (userDatabase.containsKey(username)) {
             System.out.println("User already exists.");
         } else {

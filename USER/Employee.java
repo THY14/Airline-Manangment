@@ -7,6 +7,7 @@ public class Employee extends Person implements UserAuthentication {
     protected String hireDate;
     private String username;  // Add a username field
     private String password;  // Add a password field
+    static HashMap<String, String> users = new HashMap<>();
 
     // Constructor
     public Employee(String department, String hireDate, String position, double salary, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob, String username, String password) {

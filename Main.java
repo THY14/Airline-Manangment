@@ -1,5 +1,3 @@
-package USER;
-
 import java.util.Scanner;
 
 import USER.Passenger;
