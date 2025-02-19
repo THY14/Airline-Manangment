@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
-public class Flight extends TravelEntity implements Interface{
+
+import USER.Employee;
+public class Flight extends TravelEntity {
 	private boolean delayed;
 	private int bookedEconomy;
 	private int bookedBusiness;
@@ -69,14 +71,6 @@ public class Flight extends TravelEntity implements Interface{
 
     public void setPassengers(ArrayList<Passenger> passengers) {
         this.passengers = passengers;
-    }
-    @Override
-    public void addEmployees(Employee employees) {
-        this.employees.add(employees);
-    }
-    @Override
-    public void removeEmployee(Employee employee) {
-        this.employees.remove(employee);
     }
     
 }

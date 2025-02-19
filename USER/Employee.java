@@ -1,3 +1,6 @@
+import Interface;
+
+package USER;
 public class Employee extends Person implements Interface{
     private String position;
     private String department;
