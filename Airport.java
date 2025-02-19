@@ -34,35 +34,24 @@ public class Airport {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-
     public String getLocation() {
         return location;
     }
-
-
     public void setLocation(String location) {
         this.location = location;
     }
-
-
     public int getOpenyear() {
         return openyear;
     }
-    
-
     public void setOpenyear(int openyear) {
         this.openyear = openyear;
     }
-
     public String getCountry() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
@@ -75,11 +64,9 @@ public class Airport {
     public void setTotalPassengerTraffic(double totalPassengerTraffic, double passengerIncrease) {
         this.totalPassengerTraffic = totalPassengerTraffic +  passengerIncrease;
     }
-
     public double getTotalPassengerTraffic() {
         return totalPassengerTraffic;
     }
-    
     public boolean isInternational() {
         return international;
     }

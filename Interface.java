@@ -1,7 +1,4 @@
 public interface Interface {
-    void addEmployees(Employee employees);
+    void addEmployees(Employee employee);
     void removeEmployee(Employee employee);
-    void addpassenger(Passenger passenger);
-    void removePassenger(Passenger passenger);
-    
 }

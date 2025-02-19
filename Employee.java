@@ -1,37 +1,29 @@
-public class Employee {
-    private static int employeeID = 0 ;
-    private String firstName;
-    private String lastName;
-    private String gender;
-    private String DoB;
-    private String nationality;
-    private String email;
-    private String phoneNumber;
+public class Employee extends Person implements Interface{
     private String position;
     private String department;
     private double salary;
     private String hireDate;
 
-    public Employee (String firstName, String lastName, String department) {
-        employeeID = employeeID + 1;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Employee( String department, String hireDate, String position, double salary, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob) {
+        super(id, firstname, lastname, tel, email, gender, nationality,dob);
         this.department = department;
-    }
-
-    public int getEmployeeID() { return employeeID; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
+        this.hireDate = hireDate;
+        this.position = position;
+        this.salary = salary;
+    }  
+    public int getEmployeeID() { return id; }
+    public String getFirstName() { return firstname; }
+    public String getLastName() { return lastname; }
     public String getGender() { return gender; }
     public String getDepartment() { return department; }
 
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setFirstName(String firstname) { this.firstname = firstname; }
+    public void setLastName(String lastname) { this.lastname = lastName; }
     public void setGender(String gender) { this.gender = gender; }
-    public void setDoB(String DoB) { this.DoB = DoB; }
+    public void setDoB(String dob) { this.dob = dob; }
     public void setNationality(String nationality) { this.nationality = nationality; }
     public void setEmail(String email) { this.email = email; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public void setPhoneNumber(String tel) { this.tel = tel; }
 
     public void setSalary(double salary) {
         if (salary >= 0) {
@@ -40,13 +32,24 @@ public class Employee {
             System.err.println ("Salary cannot be negative.");
         }
     }
+    
 
     @Override
     public String toString() {
-        return "Employee ID: " + employeeID + ", Name: " + firstName + " " + lastName +
-               ", Gender: " + gender + ", Date of Birth: " + DoB + ", Nationality: " + nationality +
-               ", Email: " + email + ", Phone: " + phoneNumber + ", Position: " + position +
+        return "Employee ID: " + id + ", Name: " + firstname + " " + lastname +
+               ", Gender: " + gender + ", Date of Birth: " + dob + ", Nationality: " + nationality +
+               ", Email: " + email + ", Phone: " + tel + ", Position: " + position +
                ", Department: " + department + ", Salary: $" + salary + ", Hire Date: " + hireDate;
+    }
+
+    @Override
+    public void addEmployees(Employee employee) {
+       
+        
+    }
+    @Override
+    public void removeEmployee(Employee employee) {
+       
     }
 
 }

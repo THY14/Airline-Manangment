@@ -28,16 +28,24 @@ public class Flight extends TravelEntity implements Interface{
         return bookedEconomy;
     }
 
-    public void setBookedEconomy(int bookedEconomy) {
-        this.bookedEconomy = bookedEconomy;
+    public void setBookedEconomy(int bookedEconomy, int economyCapacity) {
+        if(bookedEconomy <= economyCapacity){
+            this.bookedEconomy = bookedEconomy;
+        } else {
+            System.out.println("Not enough economy seats available");
+        }
     }
 
     public int getBookedBusiness() {
         return bookedBusiness;
     }
 
-    public void setBookedBusiness(int bookedBusiness) {
-        this.bookedBusiness = bookedBusiness;
+    public void setBookedBusiness(int bookedBusiness, int businessCapacity) {
+        if(bookedBusiness <= businessCapacity){
+            this.bookedBusiness = bookedBusiness;
+        } else {
+            System.out.println("Not enough business seats available");
+        }
     }
     public int getTotalPassengers() {
         return bookedEconomy + bookedBusiness;
@@ -69,17 +77,6 @@ public class Flight extends TravelEntity implements Interface{
     @Override
     public void removeEmployee(Employee employee) {
         this.employees.remove(employee);
-    }
-
-    @Override
-    public void addpassenger(Passenger passenger) {
-        this.passengers.add(passenger);
-        
-    }
-
-    @Override
-    public void removePassenger(Passenger passenger) {
-        this.passengers.remove(passenger);
     }
     
 }

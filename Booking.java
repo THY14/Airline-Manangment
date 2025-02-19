@@ -17,10 +17,10 @@ class Booking {
         this.origin = origin;
         this.destination = destination;
         this.depart = depart;
-        setNumOfPassengers(numOfPassengers);
+        this.numOfPassengers = numOfPassengers;
         this.seatClass = seatClass;
         this.flightIDs = new ArrayList<>();
-        setPrice(price);
+        this.price = price;
     }
 
     public int getId() { return bookingId; }
@@ -65,6 +65,7 @@ class OneWayBooking extends Booking {
     public OneWayBooking(String origin, String destination, LocalDate depart, int numOfPassengers, double price, String seatClass) {
         super(origin, destination, depart, numOfPassengers, seatClass, price);
     }
+    
 }
 
 // Round-trip booking
