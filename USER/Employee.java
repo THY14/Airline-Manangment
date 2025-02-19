@@ -1,6 +1,5 @@
 package USER;
-
-public class Employee extends Person implements Interface{
+public class Employee extends Person {
     protected String position;
     protected String department;
     protected double salary;

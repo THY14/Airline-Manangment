@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 
-import USER.Employee;
+import USER.*;
 public class Flight extends TravelEntity {
 	private boolean delayed;
 	private int bookedEconomy;

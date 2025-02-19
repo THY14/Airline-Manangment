@@ -15,7 +15,6 @@ public class TravelEntity {
         this.flight_Id = flight_Id;
     }
     
-    
     public void DisplayInfo(){
         System.out.println("Flight ID: " + flight_Id);
         System.out.println("Airplane: " + airplane_Id);
