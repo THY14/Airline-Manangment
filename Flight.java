@@ -5,8 +5,8 @@ public class Flight extends TravelEntity {
 	private boolean delayed;
 	private int bookedEconomy;
 	private int bookedBusiness;
-	private ArrayList <Employee> employees;
-	private ArrayList <Passenger> passengers;
+	private ArrayList <Person> persons;
+	
 
     public Flight(int bookedBusiness, int bookedEconomy, boolean delayed, ArrayList<Employee> employees, ArrayList<Passenger> passengers, String airplane_Id, String arrivalLocation, String arrivalTime, String departureLocation, String departureTime, String flight_Id) {
         super(airplane_Id, arrivalLocation, arrivalTime, departureLocation, departureTime, flight_Id);
