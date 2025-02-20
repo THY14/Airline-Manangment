@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-class Booking {
+public class Booking {
     private static int bookingId = 0;
     private String origin;
     private String destination;

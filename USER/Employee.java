@@ -1,13 +1,10 @@
 package USER;
 
-public class Employee extends Person implements UserAuthentication {
-    protected String position;
-    protected String department;
-    protected double salary;
-    protected String hireDate;
-    protected String username;  // Add a username field
-    protected String password;  // Add a password field
-    
+public class Employee extends Person{
+    private String position;
+    private String department;
+    private double salary;
+    private String hireDate;    
 
     // Constructor register
     public Employee(String department, String hireDate, String position, double salary, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob, String username, String password) {
@@ -147,75 +144,6 @@ public class Employee extends Person implements UserAuthentication {
         }
     }
 
-    // Implement the methods from the UserAuthentication interface
-    @Override
-    public boolean registerUser(String username, String password, String confirmPassword) {
-        // Check if the passwords match
-        if (!password.equals(confirmPassword)) {
-            System.out.println("Passwords do not match.");
-            return false;  // Registration failed
-        }
-
-        // Validate password strength
-        if (!validatePassword(password)) {
-            System.out.println("Password does not meet strength requirements.");
-            return false;  // Registration failed
-        }
-
-        // Store the username and password for later login attempts
-        this.username = username;
-        this.password = password;
-        System.out.println("Registration successful.");
-        return true;  // Registration successful
-    }
-
-    @Override
-    public boolean loginUser(String username, String password) {
-        // Check if the username matches and if the password is correct
-        if (!this.username.equals(username)) {
-            System.out.println("Invalid username.");
-            return false;  // Invalid username
-        } else {
-            if (this.password.equals(password)) {
-                System.out.println("Login successful.");
-                return true;  // Login successful
-            } else {
-                System.out.println("Invalid password.");
-                return false;  // Incorrect password
-            }
-        }
-    }
-
-    @Override
-    public boolean validatePassword(String password) {
-        if (password.length() < 8) {
-            System.out.println("Password too short. Must be at least 8 characters.");
-            return false; 
-        } else if (!password.matches(".*\\d.*")) {
-            System.out.println("Password must contain at least one digit.");
-            return false;
-        } else if (!password.matches(".*[^a-zA-Z0-9].*")) {
-            System.out.println("Password must contain at least one special character (non-alphanumeric).");
-            return false;
-        } else if (!password.matches(".*[a-z].*") || !password.matches(".*[A-Z].*")) {
-            System.out.println("Password should contain both uppercase and lowercase letters.");
-        }
-    
-        System.out.println("Password available");
-        return true; 
-    }
-
-    @Override
-    public void displayInfo() {
-    System.out.println("Employee Information:");
-    System.out.println("ID: " + id);
-    System.out.println("Name: " + firstname + " " + lastname);
-    System.out.println("Email: " + email);
-    System.out.println("Department: " + department);
-    System.out.println("Position: " + position);
-    System.out.println("Salary: $" + salary);
-    System.out.println("Hire Date: " + hireDate);
-}   
     @Override
     public String toString() {
         return "Employee ID: " + id + ", Name: " + firstname + " " + lastname +

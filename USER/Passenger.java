@@ -1,10 +1,10 @@
 package USER;
 import java.util.HashMap;
 
-public abstract class Passenger extends Person implements UserAuthentication {
-    protected String passportNumbers;
-    protected static int totalPassengers = 0;
-    protected String password;
+public abstract class Passenger extends Person{
+    private String passportNumbers;
+    private static int totalPassengers = 0;
+    private String password;
     private static HashMap<String, String> userDatabase = new HashMap<>();
     
     public Passenger(String passportNumbers, String password, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob) {
@@ -20,46 +20,8 @@ public abstract class Passenger extends Person implements UserAuthentication {
     }
 
     // Register a user by adding username and password to the userDatabase
-    @Override
-    public boolean registerUser(String username, String password, String confirmPassword) {
-        if (userDatabase.containsKey(username)) {
-            System.out.println("User already exists.");
-            return false;
-        }
-        if (!password.equals(confirmPassword)) {
-            System.out.println("Passwords do not match.");
-            return false;
-        }
-        if (!validatePassword(password)) {
-            System.out.println("Weak password! Must be at least 8 characters long, with a mix of letters and numbers.");
-            return false;
-        }
 
-        userDatabase.put(username, password);
-        System.out.println("Registration successful for user: " + username);
-        return true;
-    }
-    @Override
-    public boolean loginUser(String username, String password) {
-        if (userDatabase.containsKey(username)) {
-            if (userDatabase.get(username).equals(password)) {
-                System.out.println("Login successful for user: " + username);
-                return true;
-            } else {
-                System.out.println("Invalid password for user: " + username);
-                return false;
-            }
-        } else {
-            System.out.println("User not found: " + username);
-            return false;
-        }
-    }
-    @Override
-    public boolean validatePassword(String password) {
-        return password.length() >= 8 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*");
-    }
-
-    // Getter and Setter methods protected by password authentication
+    // Getter and Setter methodsprivate by password authentication
     public String getFirstName(String password) {
         if (authenticate(password)) {
             return firstname;
@@ -164,18 +126,6 @@ public abstract class Passenger extends Person implements UserAuthentication {
         }
     }
 
-    @Override
-    public void displayInfo() {
-        System.out.println("ID: " + id);
-        System.out.println("First Name: " + firstname);
-        System.out.println("Last Name: " + lastname);
-        System.out.println("Tel: " + tel);
-        System.out.println("Email: " + email);
-        System.out.println("Gender: " + gender);
-        System.out.println("Nationality: " + nationality);
-        System.out.println("Date of Birth: " + dob);
-        System.out.println("Passport Numbers: " + passportNumbers);
-    }
     @Override
     public String toString(){
         return "Passenger{" +
