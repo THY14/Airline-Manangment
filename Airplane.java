@@ -20,8 +20,7 @@ public class Airplane {
         this.flightHours = flightHours;
         this.airline = airline;
         this.fuelCapacity = fuelCapacity;
-        this.password = password;  // Set the instance password
-    }
+        this.password = password;  
 
     // Instance authentication method (checks instance password)
     private boolean authenticate(String password) {
