@@ -1,5 +1,5 @@
 package USER;
-import java.util.HashMap;
+public class Employee extends Person {
 public class Employee extends Person implements UserAuthentication {
     protected String position;
     protected String department;
