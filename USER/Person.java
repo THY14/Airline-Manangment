@@ -26,8 +26,6 @@ public abstract class Person implements UserAuthentication{ //Main class
         this.email = email;
     }
 
-    public abstract void displayInfo();
-
     @Override
     public boolean registerUser(String username, String password, String confirmPassword) {
         // Check if the passwords match

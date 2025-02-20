@@ -127,18 +127,6 @@ public abstract class Passenger extends Person{
     }
 
     @Override
-    public void displayInfo() {
-        System.out.println("ID: " + id);
-        System.out.println("First Name: " + firstname);
-        System.out.println("Last Name: " + lastname);
-        System.out.println("Tel: " + tel);
-        System.out.println("Email: " + email);
-        System.out.println("Gender: " + gender);
-        System.out.println("Nationality: " + nationality);
-        System.out.println("Date of Birth: " + dob);
-        System.out.println("Passport Numbers: " + passportNumbers);
-    }
-    @Override
     public String toString(){
         return "Passenger{" +
                 "id=" + id +

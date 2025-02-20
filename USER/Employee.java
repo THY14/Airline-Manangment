@@ -145,17 +145,6 @@ public class Employee extends Person{
     }
 
     @Override
-    public void displayInfo() {
-    System.out.println("Employee Information:");
-    System.out.println("ID: " + id);
-    System.out.println("Name: " + firstname + " " + lastname);
-    System.out.println("Email: " + email);
-    System.out.println("Department: " + department);
-    System.out.println("Position: " + position);
-    System.out.println("Salary: $" + salary);
-    System.out.println("Hire Date: " + hireDate);
-}   
-    @Override
     public String toString() {
         return "Employee ID: " + id + ", Name: " + firstname + " " + lastname +
                ", Gender: " + gender + ", Date of Birth: " + dob + ", Nationality: " + nationality +
