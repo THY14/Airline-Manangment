@@ -22,23 +22,78 @@ class Booking {
         this.flightIDs = new ArrayList<>();
         this.price = price;
     }
+    public int getId() {
+        return bookingId;
+    }
 
-    public int getId() { return bookingId; }
-    public String getOrigin() { return origin; }
-    public String getDestination() { return destination; }
-    public LocalDate getDepart() { return depart; }
-    public int getNumOfPassengers() { return numOfPassengers; }
-    public String getSeatClass() { return seatClass; }
-    public ArrayList<String> getFlightIDs() { return flightIDs; }
-    public double getPrice() { return price; }
-    public double getTotalPrice() { return totalPrice; }
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        if (origin != null && !origin.isEmpty()) { // Check for null or empty
+            this.origin = origin;
+        } else {
+            System.out.println("Origin cannot be null or empty.");
+        }
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        if (destination != null && !destination.isEmpty()) {
+            this.destination = destination;
+        } else {
+            System.out.println("Destination cannot be null or empty.");
+        }
+    }
+
+
+    public LocalDate getDepart() {
+        return depart;
+    }
+
+    public void setDepart(LocalDate depart) {
+        if (depart != null) {
+            this.depart = depart;
+        } else {
+            System.out.println("Departure date cannot be null.");
+        }
+    }
+
+    public int getNumOfPassengers() {
+        return numOfPassengers;
+    }
 
     public void setNumOfPassengers(int numOfPassengers) {
         if (numOfPassengers > 0) {
             this.numOfPassengers = numOfPassengers;
+            this.totalPrice = this.price * numOfPassengers; // Recalculate total price
         } else {
-            System.out.println ("Number of passengers must be greater than zero.");
+            System.out.println("Number of passengers must be greater than zero.");
         }
+    }
+
+    public String getSeatClass() {
+        return seatClass;
+    }
+
+    public void setSeatClass(String seatClass) {
+        if (seatClass != null && !seatClass.isEmpty()) {
+            this.seatClass = seatClass;
+        } else {
+            System.out.println("Seat class cannot be null or empty.");
+        }
+    }
+
+    public ArrayList<String> getFlightIDs() {
+        return new ArrayList<>(flightIDs); // Return a copy to prevent external modification
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public void setPrice(double price) {
@@ -46,8 +101,12 @@ class Booking {
             this.price = price;
             this.totalPrice = price * numOfPassengers;
         } else {
-            System.out.println ("Price cannot be negative.");
+            System.out.println("Price cannot be negative.");
         }
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
     public void addFlightID(String flightID) { this.flightIDs.add(flightID); }
