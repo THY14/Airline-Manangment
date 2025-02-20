@@ -16,8 +16,12 @@ public class Flight extends TravelEntity {
         this.employees = employees;
         this.passengers = passengers;
     }
+    public Flight (int maxEconomySeats , int max){
+
+    }
 	
     public boolean isDelayed() {
+
         return delayed;
     }
 
@@ -77,20 +81,7 @@ public class Flight extends TravelEntity {
         System.out.println("Booked Business: " + bookedBusiness);
         System.out.println("Flight Status: " + checkFlightStatus());
     }
-    public class DomesticFlight extends Flight {
-        protected double stateTax;
-        public DomesticFlight(int bookedBusiness, int bookedEconomy, boolean delayed, ArrayList<Employee> employees,
-                ArrayList<Passenger> passengers, String airplane_Id, String arrivalLocation, String arrivalTime,
-                String departureLocation, String departureTime, String flight_Id, double stateTax) {
-            super(bookedBusiness, bookedEconomy, delayed, employees, passengers, airplane_Id, arrivalLocation,
-                    arrivalTime, departureLocation, departureTime, flight_Id);
-            this.stateTax = stateTax;
-        }
-
-        public void displayDomesticDetails() {
-            super.DisplayFlightInfo();
-            System.out.println("State Tax: $" + stateTax);
-        }
+    
     }
     
     
