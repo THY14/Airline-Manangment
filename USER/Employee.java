@@ -9,9 +9,9 @@ public class Employee extends Person implements UserAuthentication {
     private String password;  // Add a password field
     static HashMap<String, String> users = new HashMap<>();
 
-    // Constructor
+    // Constructor register
     public Employee(String department, String hireDate, String position, double salary, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob, String username, String password) {
-        super(id, firstname, lastname, tel, email, gender, nationality, dob);
+        super(firstname, lastname, tel, email, gender, nationality, dob);
         this.department = department;
         this.hireDate = hireDate;
         this.position = position;
@@ -19,27 +19,131 @@ public class Employee extends Person implements UserAuthentication {
         this.username = username;
         this.password = password;
     }
+    //Consteuctor login
+    public Employee(String email, String password){
+        super(email);
+        this.password = password;
+    }
 
     // Getters and Setters for Employee attributes
-    public int getEmployeeID() { return id; }
-    public String getFirstName() { return firstname; }
-    public String getLastName() { return lastname; }
-    public String getGender() { return gender; }
-    public String getDepartment() { return department; }
+    public int getEmployeeID() { 
+        if (id > 0) {
+            return id;
+        } else {
+            System.out.println("Invalid Employee ID");
+            return -1;
+        }
+    }
 
-    public void setFirstName(String firstname) { this.firstname = firstname; }
-    public void setLastName(String lastname) { this.lastname = lastname; }
-    public void setGender(String gender) { this.gender = gender; }
-    public void setDoB(String dob) { this.dob = dob; }
-    public void setNationality(String nationality) { this.nationality = nationality; }
-    public void setEmail(String email) { this.email = email; }
-    public void setPhoneNumber(String tel) { this.tel = tel; }
+    public String getFirstName() { 
+        if (firstname != null && !firstname.isEmpty()) {
+            return firstname;
+        } else {
+            return "First name not set";
+        }
+    }
+
+    public String getLastName() { 
+        if (lastname != null && !lastname.isEmpty()) {
+            return lastname;
+        } else {
+            return "Last name not set";
+        }
+    }
+
+    public String getGender() { 
+        if (gender != null && (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("Prefer not to answer"))) {
+            return gender;
+        } else {
+            return "Invalid gender";
+        }
+    }
+
+    public String getDepartment() { 
+        if (department != null && !department.isEmpty()) {
+            return department;
+        } else {
+            return "Department not set";
+        }
+    }
+
+    public void setFirstName(String firstname) { 
+        if (firstname != null && !firstname.isEmpty()) {
+            this.firstname = firstname;
+        } else {
+            System.out.println("Invalid first name");
+        }
+    }
+
+    public void setLastName(String lastname) { 
+        if (lastname != null && !lastname.isEmpty()) {
+            this.lastname = lastname;
+        } else {
+            System.out.println("Invalid last name");
+        }
+    }
+
+    public void setGender(String gender) { 
+        if (gender != null && (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("Other"))) {
+            this.gender = gender;
+        } else {
+            System.out.println("Invalid gender");
+        }
+    }
+
+    public void setDoB(String dob) { 
+        if (dob != null && dob.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            this.dob = dob;
+        } else {
+            System.out.println("Invalid date of birth format. Use YYYY-MM-DD");
+        }
+    }
+
+    public void setNationality(String nationality) { 
+        if (nationality != null && !nationality.isEmpty()) {
+            this.nationality = nationality;
+        } else {
+            System.out.println("Invalid nationality");
+        }
+    }
+
+    public void setEmail(String email) { 
+        if (email != null && email.contains("@")) {
+            this.email = email;
+        } else {
+            System.out.println("Invalid email address");
+        }
+    }
+
+    public void setPhoneNumber(String tel) { 
+        if (tel != null && tel.matches("\\d{10}")) {
+            this.tel = tel;
+        } else {
+            System.out.println("Invalid phone number. Must be 10 digits.");
+        }
+    }
 
     public void setSalary(double salary) {
         if (salary >= 0) {
             this.salary = salary;
         } else {
             System.err.println("Salary cannot be negative.");
+        }
+    }
+
+    public String getPassword(String password) {
+        if(this.password.equals(password)){
+            return password;
+        }else{
+            return "Invalid Password";
+        }
+    }
+    public void setNewPassword(String newPassword, String oldPassword) {
+        if(this.password.equals(oldPassword)){
+            this.password = newPassword;
+            System.out.println("Password changed successfully");
+        }else{
+            System.out.println("Invalid Password");
         }
     }
 
@@ -84,24 +188,34 @@ public class Employee extends Person implements UserAuthentication {
 
     @Override
     public boolean validatePassword(String password) {
-        // Password validation: At least 8 characters, contains digits and special characters
         if (password.length() < 8) {
-            return false;  // Password too short
+            System.out.println("Password too short. Must be at least 8 characters.");
+            return false; 
+        } else if (!password.matches(".*\\d.*")) {
+            System.out.println("Password must contain at least one digit.");
+            return false;
+        } else if (!password.matches(".*[^a-zA-Z0-9].*")) {
+            System.out.println("Password must contain at least one special character (non-alphanumeric).");
+            return false;
+        } else if (!password.matches(".*[a-z].*") || !password.matches(".*[A-Z].*")) {
+            System.out.println("Password should contain both uppercase and lowercase letters.");
         }
-
-        boolean hasDigit = false;
-        boolean hasSpecialChar = false;
-
-        for (char c : password.toCharArray()) {
-            if (Character.isDigit(c)) {
-                hasDigit = true;
-            } else if (!Character.isLetterOrDigit(c)) {
-                hasSpecialChar = true;
-            }
-        }
-
-        return hasDigit && hasSpecialChar;  
+    
+        System.out.println("Password available");
+        return true; 
     }
+
+    @Override
+    public void displayInfo() {
+    System.out.println("Employee Information:");
+    System.out.println("ID: " + id);
+    System.out.println("Name: " + firstname + " " + lastname);
+    System.out.println("Email: " + email);
+    System.out.println("Department: " + department);
+    System.out.println("Position: " + position);
+    System.out.println("Salary: $" + salary);
+    System.out.println("Hire Date: " + hireDate);
+}   
     @Override
     public String toString() {
         return "Employee ID: " + id + ", Name: " + firstname + " " + lastname +

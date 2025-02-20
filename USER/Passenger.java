@@ -1,17 +1,17 @@
 package USER;
 import java.util.HashMap;
 
-public class Passenger extends Person implements UserAuthentication {
+public abstract class Passenger extends Person implements UserAuthentication {
     protected String passportNumbers;
     protected static int totalPassengers = 0;
     protected String password;
-    static HashMap<String, String> users = new HashMap<>();
+    protected static HashMap<String, String> users = new HashMap<>();
     
     // Static map to manage username-password pairs
     private static HashMap<String, String> userDatabase = new HashMap<>();
     
     public Passenger(String passportNumbers, String password, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob) {
-        super(id, firstname, lastname, tel, email, gender, nationality, dob);
+        super(firstname, lastname, tel, email, gender, nationality, dob);
         this.passportNumbers = passportNumbers;
         this.password = password;
         totalPassengers++;  
@@ -24,13 +24,23 @@ public class Passenger extends Person implements UserAuthentication {
 
     // Register a user by adding username and password to the userDatabase
     @Override
-    public void registerUser(String username, String password, String ) {
+    public boolean registerUser(String username, String password, String confirmPassword) {
         if (userDatabase.containsKey(username)) {
             System.out.println("User already exists.");
-        } else {
-            userDatabase.put(username, password);
-            System.out.println("Registration successful for user: " + username);
+            return false;
         }
+        if (!password.equals(confirmPassword)) {
+            System.out.println("Passwords do not match.");
+            return false;
+        }
+        if (!validatePassword(password)) {
+            System.out.println("Weak password! Must be at least 8 characters long, with a mix of letters and numbers.");
+            return false;
+        }
+
+        userDatabase.put(username, password);
+        System.out.println("Registration successful for user: " + username);
+        return true;
     }
 
     // Login a user by checking username and password
@@ -50,8 +60,13 @@ public class Passenger extends Person implements UserAuthentication {
         }
     }
 
-    // Getter and Setter methods protected by password authentication
+    // Validate password strength
+    @Override
+    public boolean validatePassword(String password) {
+        return password.length() >= 8 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*");
+    }
 
+    // Getter and Setter methods protected by password authentication
     public String getFirstName(String password) {
         if (authenticate(password)) {
             return firstname;
