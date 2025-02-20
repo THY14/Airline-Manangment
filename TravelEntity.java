@@ -1,10 +1,10 @@
-public class TravelEntity {
-    String flight_Id;
-    String airplane_Id;
-    String departureLocation;
-    String arrivalLocation;
-    String departureTime;
-    String arrivalTime;
+abstract public class TravelEntity {
+    protected String flight_Id;
+    protected String airplane_Id;
+    protected String departureLocation;
+    protected String arrivalLocation;
+    protected String departureTime;
+    protected String arrivalTime;
 
     public TravelEntity(String airplane_Id, String arrivalLocation, String arrivalTime, String departureLocation, String departureTime, String flight_Id) {
         this.airplane_Id = airplane_Id;

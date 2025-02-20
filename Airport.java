@@ -4,12 +4,10 @@ public class Airport {
     private String location;
     private int openyear;
     private String country;
-    private static long annualFlights;
     private double totalPassengerTraffic;
     private boolean international;
 
     public Airport(String code, String name, String location, int openyear, String country, double totalPassengerTraffic, boolean international) {
-        annualFlights++;
         this.code = code;
         this.name = name;
         this.location = location;
@@ -54,12 +52,6 @@ public class Airport {
     }
     public void setCountry(String country) {
         this.country = country;
-    }
-    public static long getAnnualFlights() {
-        return annualFlights;
-    }
-    public double getAveragePassengerTraffic() {
-        return totalPassengerTraffic / annualFlights;
     }
     public void setTotalPassengerTraffic(double totalPassengerTraffic, double passengerIncrease) {
         this.totalPassengerTraffic = totalPassengerTraffic +  passengerIncrease;
