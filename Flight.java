@@ -8,13 +8,12 @@ public class Flight extends TravelEntity {
 	private ArrayList <Person> persons;
 	
 
-    public Flight(int bookedBusiness, int bookedEconomy, boolean delayed, ArrayList<Employee> employees, ArrayList<Passenger> passengers, String airplane_Id, String arrivalLocation, String arrivalTime, String departureLocation, String departureTime, String flight_Id) {
+    public Flight(int bookedBusiness, int bookedEconomy, boolean delayed, ArrayList<Person> persons, String airplane_Id, String arrivalLocation, String arrivalTime, String departureLocation, String departureTime, String flight_Id) {
         super(airplane_Id, arrivalLocation, arrivalTime, departureLocation, departureTime, flight_Id);
         this.bookedBusiness = bookedBusiness;
         this.bookedEconomy = bookedEconomy;
         this.delayed = delayed;
-        this.employees = employees;
-        this.passengers = passengers;
+        this.persons = persons;
     }
 	
     public boolean isDelayed() {
