@@ -1,9 +1,11 @@
 package USER;
+import java.util.HashMap;
 
 public abstract class Passenger extends Person implements UserAuthentication {
     protected String passportNumbers;
     protected static int totalPassengers = 0;
     protected String password;
+    private static HashMap<String, String> userDatabase = new HashMap<>();
     
     public Passenger(String passportNumbers, String password, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob) {
         super(firstname, lastname, tel, email, gender, nationality, dob);
@@ -160,5 +162,32 @@ public abstract class Passenger extends Person implements UserAuthentication {
         } else {
             return -1;
         }
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("ID: " + id);
+        System.out.println("First Name: " + firstname);
+        System.out.println("Last Name: " + lastname);
+        System.out.println("Tel: " + tel);
+        System.out.println("Email: " + email);
+        System.out.println("Gender: " + gender);
+        System.out.println("Nationality: " + nationality);
+        System.out.println("Date of Birth: " + dob);
+        System.out.println("Passport Numbers: " + passportNumbers);
+    }
+    @Override
+    public String toString(){
+        return "Passenger{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", tel='" + tel + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", dob='" + dob + '\'' +
+                ", passportNumbers='" + passportNumbers + '\'' +
+                '}';
     }
 }
