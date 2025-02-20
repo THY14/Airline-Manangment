@@ -19,7 +19,7 @@ public abstract class Passenger extends Person implements UserAuthentication {
 
     // Implement the authenticate method from the UserInterface
     public boolean authenticate(String password) {
-        return this.password.equals(password);  // Verifies if the entered password matches
+        return this.password.equals(password);  
     }
 
     // Register a user by adding username and password to the userDatabase
@@ -42,8 +42,6 @@ public abstract class Passenger extends Person implements UserAuthentication {
         System.out.println("Registration successful for user: " + username);
         return true;
     }
-
-    // Login a user by checking username and password
     @Override
     public boolean loginUser(String username, String password) {
         if (userDatabase.containsKey(username)) {
@@ -59,8 +57,6 @@ public abstract class Passenger extends Person implements UserAuthentication {
             return false;
         }
     }
-
-    // Validate password strength
     @Override
     public boolean validatePassword(String password) {
         return password.length() >= 8 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*");
