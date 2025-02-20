@@ -5,8 +5,8 @@ public class Employee extends Person implements UserAuthentication {
     protected String department;
     protected double salary;
     protected String hireDate;
-    private String username;  // Add a username field
-    private String password;  // Add a password field
+    protected String username;  // Add a username field
+    protected String password;  // Add a password field
     
 
     // Constructor register
