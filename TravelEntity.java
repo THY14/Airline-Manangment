@@ -1,4 +1,4 @@
-abstract public class TravelEntity {
+public class TravelEntity {
     protected String flight_Id;
     protected String airplane_Id;
     protected String departureLocation;
@@ -20,6 +20,10 @@ abstract public class TravelEntity {
         System.out.println("Airplane: " + airplane_Id);
         System.out.println("Departure Location: " + departureLocation + "at" + departureTime);
         System.out.println("Arrival Location: " + arrivalLocation + "at" + arrivalTime  );
+    }
+    public static void main(String[] args) {
+        TravelEntity flight1 = new TravelEntity("Airbus A320", "New York", "10:00 PM", "Los Angeles", "12:00 PM", "12345");
+        flight1.DisplayInfo();
     }
 
 }
