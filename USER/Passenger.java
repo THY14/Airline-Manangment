@@ -4,13 +4,11 @@ import java.util.HashMap;
 public abstract class Passenger extends Person{
     private String passportNumbers;
     private static int totalPassengers = 0;
-    private String password;
     private static HashMap<String, String> userDatabase = new HashMap<>();
     
-    public Passenger(String passportNumbers, String password, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob) {
-        super(firstname, lastname, tel, email, gender, nationality, dob);
+    public Passenger(String passportNumbers, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob,  String username, String password) {
+        super(firstname, lastname, tel, email, gender, nationality, dob, username, password);
         this.passportNumbers = passportNumbers;
-        this.password = password;
         totalPassengers++;  
     }
 

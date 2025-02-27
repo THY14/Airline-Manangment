@@ -8,18 +8,16 @@ public class Employee extends Person{
 
     // Constructor register
     public Employee(String department, String hireDate, String position, double salary, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob, String username, String password) {
-        super(firstname, lastname, tel, email, gender, nationality, dob);
+        super(firstname, lastname, tel, email, gender, nationality, dob, username, password);
         this.department = department;
         this.hireDate = hireDate;
         this.position = position;
         this.salary = salary;
-        this.username = username;
-        this.password = password;
     }
     //Consteuctor login
     public Employee(String email, String password){
-        super(email);
-        this.password = password;
+        super(email, password);
+
     }
 
     // Getters and Setters for Employee attributes
