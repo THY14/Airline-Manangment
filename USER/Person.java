@@ -11,7 +11,8 @@ public abstract class Person implements UserAuthentication{ //Main class
     protected String username;
     protected String password;
     
-    public Person(String firstname, String lastname, String tel, String email, String gender, String nationality,String dob) {
+    //Register
+    public Person(String firstname, String lastname, String tel, String email, String gender, String nationality, String dob,  String username, String password) {
         id = id + 1;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -20,10 +21,14 @@ public abstract class Person implements UserAuthentication{ //Main class
         this.gender = gender;
         this.nationality = nationality;
         this.dob = dob;
+        this.username = username;
+        this.password = password;
     }
 
-    public Person(String email){
+    //Login
+    public Person(String email, String password){
         this.email = email;
+        this.password = password;
     }
 
     @Override
