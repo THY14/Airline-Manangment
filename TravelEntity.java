@@ -14,16 +14,22 @@ public class TravelEntity {
         this.departureTime = departureTime;
         this.flight_Id = flight_Id;
     }
-    
-    public void DisplayInfo(){
-        System.out.println("Flight ID: " + flight_Id);
-        System.out.println("Airplane: " + airplane_Id);
-        System.out.println("Departure Location: " + departureLocation + "at" + departureTime);
-        System.out.println("Arrival Location: " + arrivalLocation + "at" + arrivalTime  );
-    }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("TravelEntity{");
+            sb.append("flight_Id=").append(flight_Id);
+            sb.append(", airplane_Id=").append(airplane_Id);
+            sb.append(", departureLocation=").append(departureLocation);
+            sb.append(", arrivalLocation=").append(arrivalLocation);
+            sb.append(", departureTime=").append(departureTime);
+            sb.append(", arrivalTime=").append(arrivalTime);
+            sb.append('}');
+            return sb.toString();
+        }
     public static void main(String[] args) {
         TravelEntity flight1 = new TravelEntity("Airbus A320", "New York", "10:00 PM", "Los Angeles", "12:00 PM", "12345");
-        flight1.DisplayInfo();
+        System.out.println(flight1);
     }
-
 }

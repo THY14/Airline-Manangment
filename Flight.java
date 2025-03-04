@@ -1,6 +1,9 @@
+import USER.Employee;
 import USER.Passenger;
 import USER.Person;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Flight extends TravelEntity {
     private boolean delayed;
     private int bookedEconomy;
@@ -43,9 +46,9 @@ public class Flight extends TravelEntity {
         return Math.max(bookedEconomy, 0);
     }
 
-    public void setBookedEconomy(int bookedEconomy, int economyCapacity) throws Exception {
+    public void setBookedEconomy(int bookedEconomy, int economyCapacity) throws FlightException {
         if (bookedEconomy > economyCapacity) {
-            throw new Exception("Not enough economy seats available!");
+            throw new FlightException("Not enough economy seats available!");
         }
         this.bookedEconomy = bookedEconomy;
     }
@@ -54,9 +57,9 @@ public class Flight extends TravelEntity {
         return Math.max(bookedBusiness, 0);
     }
 
-    public void setBookedBusiness(int bookedBusiness, int businessCapacity) throws Exception {
+    public void setBookedBusiness(int bookedBusiness, int businessCapacity) throws FlightException {
         if (bookedBusiness > businessCapacity) {
-            throw new Exception("Not enough business seats available!");
+            throw new FlightException("Not enough business seats available!");
         }
         this.bookedBusiness = bookedBusiness;
     }
@@ -81,24 +84,46 @@ public class Flight extends TravelEntity {
         }
     }
 
-    public void DisplayFlightInfo() {
-        super.DisplayInfo();
-        System.out.println("Booked Economy: " + bookedEconomy);
-        System.out.println("Booked Business: " + bookedBusiness);
-        System.out.println("Flight Status: " + checkFlightStatus());
-        System.out.println("\nPersons on Flight:");
-        for (Person p : persons) {
-            System.out.println("- " + p);
-        }
+    @Override
+    public String toString() {
+        return "Flight [flight_Id=" + flight_Id + ", airplane_Id=" + airplane_Id + ", departureLocation="
+                + departureLocation + ", delayed=" + delayed + ", arrivalLocation=" + arrivalLocation
+                + ", bookedEconomy=" + bookedEconomy + ", bookedBusiness=" + bookedBusiness + ", departureTime="
+                + departureTime + ", arrivalTime=" + arrivalTime + ", persons=" + persons + ", isDelayed()="
+                + isDelayed() + ", getBookedEconomy()=" + getBookedEconomy()
+                + ", getBookedBusiness()=" + getBookedBusiness() + ", getTotalPassengers()=" + getTotalPassengers()
+                + ", checkFlightStatus()=" + checkFlightStatus() + "]";
     }
 
     public static void main(String[] args) {
         ArrayList<Person> persons = new ArrayList<>();
-        persons.add(new Passenger("P12345", "securePass", 1, "John", "Doe", "123-456-7890", "john@example.com", "Male", "USA", "01-01-1990"));
-        persons.add(new Employee("Alice", "Johnson", "555-1234", "alice@example.com", "Female", "USA", "03-03-1980", "Pilot", 80000,));
+        persons.add(new Passenger("123456789", 1, "John", "Doe", "555-1234", "john.doe@example.com", "Male", "USA", "1990-01-01", "john_doe", "securePassword123"));
+        persons.add(new Employee("Engineering", "2025-01-15", "Software Engineer", 95000, 1, "Alice", "Johnson", "555-0011", "alice.johnson@example.com", "Female", "USA", "1992-06-23", "alice_92", "password123"));
 
         Flight flight = new Flight(2, 3, false, persons, 
                                    "A320", "NYC", "10:00 AM", "LAX", "1:00 PM", "FL123");
-        flight.DisplayFlightInfo();
+
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.println("Enter new flight delay status (true/false): ");
+            boolean newDelayedStatus = sc.nextBoolean();
+            flight.setDelayed(newDelayedStatus);
+
+            System.out.println("Input BookedEconomy:");
+            int bookedEconomy = sc.nextInt();
+
+            System.out.println("Input BookedBusiness:");
+            int bookedBusiness = sc.nextInt();
+
+            // Using FlightException Handling
+            FlightException.handleException(() -> flight.setBookedEconomy(bookedEconomy, 100)); // 100 max economy seats
+            FlightException.handleException(() -> flight.setBookedBusiness(bookedBusiness, 40)); // 40 max business seats
+
+        } catch (Exception e) {
+            System.out.println("Invalid input! Please enter numbers only.");
+            sc.nextLine();  // Clear buffer to avoid infinite loop
+        } finally {
+            sc.close();  // Close scanner to prevent resource leak
+        }
     }
 }
