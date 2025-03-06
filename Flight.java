@@ -1,65 +1,38 @@
-<<<<<<< HEAD
-=======
-import USER.DatabaseUtil;
->>>>>>> 6ab626cb5a74ac9403758d098681b4651a151bac
 import USER.Person;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Scanner;
-=======
->>>>>>> 6ab626cb5a74ac9403758d098681b4651a151bac
 
 public class Flight extends TravelEntity {
     private boolean delayed;
     private int bookedEconomy;
     private int bookedBusiness;
     private final ArrayList<Person> persons;
+    private static final ArrayList<Flight> flights = new ArrayList<>();
 
     public Flight(int bookedBusiness, int bookedEconomy, boolean delayed, ArrayList<Person> persons, 
                   String airplane_Id, String arrivalLocation, String arrivalTime, 
                   String departureLocation, String departureTime, String flight_Id) {
         super(airplane_Id, arrivalLocation, arrivalTime, departureLocation, departureTime, flight_Id);
-        validateInputs(bookedBusiness, bookedEconomy, persons);
+        validateInputs(bookedBusiness, bookedEconomy);
         this.bookedBusiness = bookedBusiness;
         this.bookedEconomy = bookedEconomy;
         this.delayed = delayed;
         this.persons = (persons != null) ? new ArrayList<>(persons) : new ArrayList<>();
     }
 
-    private void validateInputs(int bookedBusiness, int bookedEconomy, ArrayList<Person> persons) {
+    private void validateInputs(int bookedBusiness, int bookedEconomy) {
         if (bookedBusiness < 0) throw new IllegalArgumentException("Booked business seats cannot be negative");
         if (bookedEconomy < 0) throw new IllegalArgumentException("Booked economy seats cannot be negative");
     }
 
-    public void saveToDatabase() throws SQLException {
-        try (Connection conn = DatabaseUtil.getConnection()) {
-            String sql = "INSERT INTO flights (flight_id, airplane_id, departure_location, arrival_location, departure_time, arrival_time, booked_economy, booked_business, delayed) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, flight_Id);
-            pstmt.setString(2, airplane_Id);
-            pstmt.setString(3, departureLocation);
-            pstmt.setString(4, arrivalLocation);
-            pstmt.setString(5, departureTime);
-            pstmt.setString(6, arrivalTime);
-            pstmt.setInt(7, bookedEconomy);
-            pstmt.setInt(8, bookedBusiness);
-            pstmt.setBoolean(9, delayed);
-            pstmt.executeUpdate();
-        }
-    }
-
-<<<<<<< HEAD
     public int getBookedEconomy() {
         return Math.max(bookedEconomy, 0);
     }
 
-    public void setBookedEconomy(int bookedEconomy, int economyCapacity)  {
+    public void setBookedEconomy(int bookedEconomy, int economyCapacity) {
         if (bookedEconomy > economyCapacity) {
             System.out.println("Not enough economy seats available!");
+            return;
         }
         this.bookedEconomy = bookedEconomy;
     }
@@ -68,9 +41,10 @@ public class Flight extends TravelEntity {
         return Math.max(bookedBusiness, 0);
     }
 
-    public void setBookedBusiness(int bookedBusiness, int businessCapacity)  {
+    public void setBookedBusiness(int bookedBusiness, int businessCapacity) {
         if (bookedBusiness > businessCapacity) {
             System.out.println("Not enough business seats available!");
+            return;
         }
         this.bookedBusiness = bookedBusiness;
     }
@@ -84,59 +58,73 @@ public class Flight extends TravelEntity {
     }
 
     public ArrayList<Person> getPersons() {
-        return persons;
+        return new ArrayList<>(persons);
+    }
+    public boolean isDelayed() {
+        return delayed;
     }
 
-    public void setPersons(ArrayList<Person> persons) {
-        if (persons == null) {
-            System.out.println("Error: Person list cannot be null.");
+    public void setDelayed(boolean delayed) {
+        this.delayed = delayed;
+    }
+
+    public void addPerson(Person person) {
+        if (person != null) {
+            persons.add(person);
         } else {
-            this.persons = persons;
+            System.out.println("Error: Cannot add a null person.");
         }
     }
+
+    
 
     @Override
     public String toString() {
         return "Flight [flight_Id=" + flight_Id + ", airplane_Id=" + airplane_Id + ", departureLocation="
-                + departureLocation + ", delayed=" + delayed + ", arrivalLocation=" + arrivalLocation
-                + ", bookedEconomy=" + bookedEconomy + ", bookedBusiness=" + bookedBusiness + ", departureTime="
-                + departureTime + ", arrivalTime=" + arrivalTime + ", persons=" + persons + ", isDelayed()="
-                + isDelayed() + ", getBookedEconomy()=" + getBookedEconomy()
-                + ", getBookedBusiness()=" + getBookedBusiness() + ", getTotalPassengers()=" + getTotalPassengers()
-                + ", checkFlightStatus()=" + checkFlightStatus() + "]";
+                + departureLocation + ", delayed=" + delayed + ", bookedEconomy=" + bookedEconomy + ", arrivalLocation="
+                + arrivalLocation + ", bookedBusiness=" + bookedBusiness + ", departureTime=" + departureTime
+                + ", arrivalTime=" + arrivalTime + ", persons=" + persons + ", getBookedEconomy()=" + getBookedEconomy()
+                + ", getClass()=" + getClass() + ", toString()=" + super.toString() + ", getBookedBusiness()="
+                + getBookedBusiness() + ", getTotalPassengers()=" + getTotalPassengers() + ", checkFlightStatus()="
+                + checkFlightStatus() + ", getPersons()=" + getPersons() + ", isDelayed()=" + isDelayed()
+                + ", hashCode()=" + hashCode() + "]";
     }
-    public static void createFlight(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter flight details:");
-        System.out.print("Flight ID: ");
-        String flightId = scanner.nextLine();
-        System.out.print("Airplane ID: ");
-        String airplaneId = scanner.nextLine();
-        System.out.print("Departure Location: ");
-        String departureLocation = scanner.nextLine();
-        System.out.print("Arrival Location: ");
-        String arrivalLocation = scanner.nextLine();
-        System.out.print("Departure Time: ");
-        String departureTime = scanner.nextLine();
-        System.out.print("Arrival Time: ");
-        String arrivalTime = scanner.nextLine();
-        Flight flight = new Flight(0, 0, false, new ArrayList<>(), airplaneId, arrivalLocation, arrivalTime, departureLocation, departureTime, flightId);
-        System.out.println("Flight created successfully!");
-        System.out.println(flight);
 
+    public static void createFlight() {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Enter flight details:");
+            System.out.print("Flight ID: ");
+            String flightId = scanner.nextLine();
+            System.out.print("Airplane ID: ");
+            String airplaneId = scanner.nextLine();
+            System.out.print("Departure Location: ");
+            String departureLocation = scanner.nextLine();
+            System.out.print("Arrival Location: ");
+            String arrivalLocation = scanner.nextLine();
+            System.out.print("Departure Time: ");
+            String departureTime = scanner.nextLine();
+            System.out.print("Arrival Time: ");
+            String arrivalTime = scanner.nextLine();
+            
+            Flight flight = new Flight(0, 0, false, new ArrayList<>(), airplaneId, arrivalLocation, arrivalTime, departureLocation, departureTime, flightId);
+            flights.add(flight);
+            System.out.println("Flight created successfully!");
+            System.out.println(flight);
+        }
     }
-    public static void showAllFlight(){
-        
+
+    public static void showAllFlights() {
+        if (flights.isEmpty()) {
+            System.out.println("No flights available.");
+        } else {
+            for (Flight flight : flights) {
+                System.out.println(flight);
+            }
+        }
     }
+
     public static void main(String[] args) {
-                // Create a new flight
         Flight.createFlight();
+        Flight.showAllFlights();
     }
 }
-=======
-    public boolean isDelayed() { return delayed; }
-    public int getBookedEconomy() { return bookedEconomy; }
-    public int getBookedBusiness() { return bookedBusiness; }
-    public ArrayList<Person> getPersons() { return new ArrayList<>(persons); }
-}
->>>>>>> 6ab626cb5a74ac9403758d098681b4651a151bac
