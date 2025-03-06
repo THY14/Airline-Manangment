@@ -1,45 +1,58 @@
+<<<<<<< HEAD
+=======
+import USER.DatabaseUtil;
+>>>>>>> 6ab626cb5a74ac9403758d098681b4651a151bac
 import USER.Person;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Scanner;
+=======
+>>>>>>> 6ab626cb5a74ac9403758d098681b4651a151bac
 
 public class Flight extends TravelEntity {
     private boolean delayed;
     private int bookedEconomy;
     private int bookedBusiness;
-    private ArrayList<Person> persons;
+    private final ArrayList<Person> persons;
 
-    public Flight(int bookedBusiness, int bookedEconomy, boolean delayed, 
-                  ArrayList<Person> persons, String airplane_Id, String arrivalLocation, 
-                  String arrivalTime, String departureLocation, String departureTime, 
-                  String flight_Id) {
+    public Flight(int bookedBusiness, int bookedEconomy, boolean delayed, ArrayList<Person> persons, 
+                  String airplane_Id, String arrivalLocation, String arrivalTime, 
+                  String departureLocation, String departureTime, String flight_Id) {
         super(airplane_Id, arrivalLocation, arrivalTime, departureLocation, departureTime, flight_Id);
+        validateInputs(bookedBusiness, bookedEconomy, persons);
         this.bookedBusiness = bookedBusiness;
         this.bookedEconomy = bookedEconomy;
         this.delayed = delayed;
-        this.persons = (persons != null) ? persons : new ArrayList<>();
+        this.persons = (persons != null) ? new ArrayList<>(persons) : new ArrayList<>();
     }
 
-    public void addPerson(Person person) {
-        if (person == null) {
-            System.out.println("Error: Cannot add a null person.");
-            return;
+    private void validateInputs(int bookedBusiness, int bookedEconomy, ArrayList<Person> persons) {
+        if (bookedBusiness < 0) throw new IllegalArgumentException("Booked business seats cannot be negative");
+        if (bookedEconomy < 0) throw new IllegalArgumentException("Booked economy seats cannot be negative");
+    }
+
+    public void saveToDatabase() throws SQLException {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String sql = "INSERT INTO flights (flight_id, airplane_id, departure_location, arrival_location, departure_time, arrival_time, booked_economy, booked_business, delayed) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, flight_Id);
+            pstmt.setString(2, airplane_Id);
+            pstmt.setString(3, departureLocation);
+            pstmt.setString(4, arrivalLocation);
+            pstmt.setString(5, departureTime);
+            pstmt.setString(6, arrivalTime);
+            pstmt.setInt(7, bookedEconomy);
+            pstmt.setInt(8, bookedBusiness);
+            pstmt.setBoolean(9, delayed);
+            pstmt.executeUpdate();
         }
-        persons.add(person);
     }
 
-    public boolean isDelayed() {
-        return delayed;
-    }
-
-    public void setDelayed(boolean delayed) {
-        if (this.delayed == delayed) {
-            System.out.println("No change: Flight delay status is already set to " + delayed);
-        } else {
-            this.delayed = delayed;
-            System.out.println(delayed ? "Flight is now marked as delayed." : "Flight is now on time.");
-        }
-    }
-
+<<<<<<< HEAD
     public int getBookedEconomy() {
         return Math.max(bookedEconomy, 0);
     }
@@ -120,3 +133,10 @@ public class Flight extends TravelEntity {
         Flight.createFlight();
     }
 }
+=======
+    public boolean isDelayed() { return delayed; }
+    public int getBookedEconomy() { return bookedEconomy; }
+    public int getBookedBusiness() { return bookedBusiness; }
+    public ArrayList<Person> getPersons() { return new ArrayList<>(persons); }
+}
+>>>>>>> 6ab626cb5a74ac9403758d098681b4651a151bac
