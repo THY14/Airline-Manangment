@@ -1,5 +1,3 @@
-import USER.Employee;
-import USER.Passenger;
 import USER.Person;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -46,9 +44,9 @@ public class Flight extends TravelEntity {
         return Math.max(bookedEconomy, 0);
     }
 
-    public void setBookedEconomy(int bookedEconomy, int economyCapacity) throws FlightException {
+    public void setBookedEconomy(int bookedEconomy, int economyCapacity)  {
         if (bookedEconomy > economyCapacity) {
-            throw new FlightException("Not enough economy seats available!");
+            System.out.println("Not enough economy seats available!");
         }
         this.bookedEconomy = bookedEconomy;
     }
@@ -57,9 +55,9 @@ public class Flight extends TravelEntity {
         return Math.max(bookedBusiness, 0);
     }
 
-    public void setBookedBusiness(int bookedBusiness, int businessCapacity) throws FlightException {
+    public void setBookedBusiness(int bookedBusiness, int businessCapacity)  {
         if (bookedBusiness > businessCapacity) {
-            throw new FlightException("Not enough business seats available!");
+            System.out.println("Not enough business seats available!");
         }
         this.bookedBusiness = bookedBusiness;
     }
@@ -94,36 +92,31 @@ public class Flight extends TravelEntity {
                 + ", getBookedBusiness()=" + getBookedBusiness() + ", getTotalPassengers()=" + getTotalPassengers()
                 + ", checkFlightStatus()=" + checkFlightStatus() + "]";
     }
+    public static void createFlight(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter flight details:");
+        System.out.print("Flight ID: ");
+        String flightId = scanner.nextLine();
+        System.out.print("Airplane ID: ");
+        String airplaneId = scanner.nextLine();
+        System.out.print("Departure Location: ");
+        String departureLocation = scanner.nextLine();
+        System.out.print("Arrival Location: ");
+        String arrivalLocation = scanner.nextLine();
+        System.out.print("Departure Time: ");
+        String departureTime = scanner.nextLine();
+        System.out.print("Arrival Time: ");
+        String arrivalTime = scanner.nextLine();
+        Flight flight = new Flight(0, 0, false, new ArrayList<>(), airplaneId, arrivalLocation, arrivalTime, departureLocation, departureTime, flightId);
+        System.out.println("Flight created successfully!");
+        System.out.println(flight);
 
+    }
+    public static void showAllFlight(){
+        
+    }
     public static void main(String[] args) {
-        ArrayList<Person> persons = new ArrayList<>();
-        persons.add(new Passenger("123456789", 1, "John", "Doe", "555-1234", "john.doe@example.com", "Male", "USA", "1990-01-01", "john_doe", "securePassword123"));
-        persons.add(new Employee("Engineering", "2025-01-15", "Software Engineer", 95000, 1, "Alice", "Johnson", "555-0011", "alice.johnson@example.com", "Female", "USA", "1992-06-23", "alice_92", "password123"));
-
-        Flight flight = new Flight(2, 3, false, persons, 
-                                   "A320", "NYC", "10:00 AM", "LAX", "1:00 PM", "FL123");
-
-        Scanner sc = new Scanner(System.in);
-        try {
-            System.out.println("Enter new flight delay status (true/false): ");
-            boolean newDelayedStatus = sc.nextBoolean();
-            flight.setDelayed(newDelayedStatus);
-
-            System.out.println("Input BookedEconomy:");
-            int bookedEconomy = sc.nextInt();
-
-            System.out.println("Input BookedBusiness:");
-            int bookedBusiness = sc.nextInt();
-
-            // Using FlightException Handling
-            FlightException.handleException(() -> flight.setBookedEconomy(bookedEconomy, 100)); // 100 max economy seats
-            FlightException.handleException(() -> flight.setBookedBusiness(bookedBusiness, 40)); // 40 max business seats
-
-        } catch (Exception e) {
-            System.out.println("Invalid input! Please enter numbers only.");
-            sc.nextLine();  // Clear buffer to avoid infinite loop
-        } finally {
-            sc.close();  // Close scanner to prevent resource leak
-        }
+                // Create a new flight
+        Flight.createFlight();
     }
 }
