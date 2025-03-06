@@ -1,144 +1,99 @@
 package USER;
 
-public class Employee extends Person{
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class Employee extends Person {
     private String position;
     private String department;
     private double salary;
-    private String hireDate;    
+    private String hireDate;
 
-    // Constructor register
-    public Employee(String department, String hireDate, String position, double salary, int id, String firstname, String lastname, String tel, String email, String gender, String nationality, String dob, String username, String password) {
-        super(firstname, lastname, tel, email, gender, nationality, dob, username, password);
+    public Employee(String department, String hireDate, String position, double salary, String firstname, String lastname, 
+                    String tel, String email, String gender, String nationality, String dob, String username, String password) {
+        super(firstname, lastname, tel, email, gender, nationality, dob, username, password, "EMPLOYEE");
+        validateEmployeeInputs(department, hireDate, position, salary);
         this.department = department;
         this.hireDate = hireDate;
         this.position = position;
         this.salary = salary;
-    }
-    //Consteuctor login
-    public Employee(String email, String password){
-        super(email, password);
-
+        System.out.println("Created Employee with ID: " + this.id + ", Username: " + username);  // Debug
     }
 
-    // Getters and Setters for Employee attributes
-    public int getEmployeeID() { 
-        if (id > 0) {
-            return id;
-        } else {
-            System.out.println("Invalid Employee ID");
-            return -1;
-        }
+    private void validateEmployeeInputs(String department, String hireDate, String position, double salary) {
+        if (department == null || department.trim().isEmpty()) throw new IllegalArgumentException("Department cannot be null or empty");
+        if (hireDate == null || !hireDate.matches("\\d{4}-\\d{2}-\\d{2}")) throw new IllegalArgumentException("Hire date must be in YYYY-MM-DD format");
+        if (position == null || position.trim().isEmpty()) throw new IllegalArgumentException("Position cannot be null or empty");
+        if (salary < 0) throw new IllegalArgumentException("Salary cannot be negative");
     }
 
-    public String getFirstName() { 
-        if (firstname != null && !firstname.isEmpty()) {
-            return firstname;
-        } else {
-            return "First name not set";
-        }
+    public int getEmployeeID() {
+        return id;
     }
 
-    public String getLastName() { 
-        if (lastname != null && !lastname.isEmpty()) {
-            return lastname;
-        } else {
-            return "Last name not set";
-        }
+    public String getDepartment() {
+        return department;
     }
 
-    public String getGender() { 
-        if (gender != null && (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("Prefer not to answer"))) {
-            return gender;
-        } else {
-            return "Invalid gender";
-        }
+    public void setDepartment(String department) {
+        if (department == null || department.trim().isEmpty()) throw new IllegalArgumentException("Department cannot be null or empty");
+        this.department = department;
     }
 
-    public String getDepartment() { 
-        if (department != null && !department.isEmpty()) {
-            return department;
-        } else {
-            return "Department not set";
-        }
+    public String getPosition() {
+        return position;
     }
 
-    public void setFirstName(String firstname) { 
-        if (firstname != null && !firstname.isEmpty()) {
-            this.firstname = firstname;
-        } else {
-            System.out.println("Invalid first name");
-        }
+    public void setPosition(String position) {
+        if (position == null || position.trim().isEmpty()) throw new IllegalArgumentException("Position cannot be null or empty");
+        this.position = position;
     }
 
-    public void setLastName(String lastname) { 
-        if (lastname != null && !lastname.isEmpty()) {
-            this.lastname = lastname;
-        } else {
-            System.out.println("Invalid last name");
-        }
-    }
-
-    public void setGender(String gender) { 
-        if (gender != null && (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("Other"))) {
-            this.gender = gender;
-        } else {
-            System.out.println("Invalid gender");
-        }
-    }
-
-    public void setDoB(String dob) { 
-        if (dob != null && dob.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            this.dob = dob;
-        } else {
-            System.out.println("Invalid date of birth format. Use YYYY-MM-DD");
-        }
-    }
-
-    public void setNationality(String nationality) { 
-        if (nationality != null && !nationality.isEmpty()) {
-            this.nationality = nationality;
-        } else {
-            System.out.println("Invalid nationality");
-        }
-    }
-
-    public void setEmail(String email) { 
-        if (email != null && email.contains("@")) {
-            this.email = email;
-        } else {
-            System.out.println("Invalid email address");
-        }
-    }
-
-    public void setPhoneNumber(String tel) { 
-        if (tel != null && tel.matches("\\d{10}")) {
-            this.tel = tel;
-        } else {
-            System.out.println("Invalid phone number. Must be 10 digits.");
-        }
+    public double getSalary() {
+        return salary;
     }
 
     public void setSalary(double salary) {
-        if (salary >= 0) {
-            this.salary = salary;
-        } else {
-            System.err.println("Salary cannot be negative.");
-        }
+        if (salary < 0) throw new IllegalArgumentException("Salary cannot be negative");
+        this.salary = salary;
     }
 
-    public String getPassword(String password) {
-        if(this.password.equals(password)){
-            return password;
-        }else{
-            return "Invalid Password";
-        }
+    public String getHireDate() {
+        return hireDate;
     }
-    public void setNewPassword(String newPassword, String oldPassword) {
-        if(this.password.equals(oldPassword)){
-            this.password = newPassword;
-            System.out.println("Password changed successfully");
-        }else{
-            System.out.println("Invalid Password");
+
+    public void setHireDate(String hireDate) {
+        if (hireDate == null || !hireDate.matches("\\d{4}-\\d{2}-\\d{2}")) throw new IllegalArgumentException("Hire date must be in YYYY-MM-DD format");
+        this.hireDate = hireDate;
+    }
+
+    @Override
+    public void saveToDatabase() throws SQLException {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Invalid ID: ID must be greater than 0 for database insertion. Current ID: " + id);
+        }
+        System.out.println("Saving Employee to database with ID: " + id + ", Username: " + username);  // Debug
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String sql = "INSERT INTO users (id, passport_number, firstname, lastname, tel, email, gender, nationality, dob, username, password, role) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " +
+                         "passport_number = VALUES(passport_number), firstname = VALUES(firstname), lastname = VALUES(lastname), " +
+                         "tel = VALUES(tel), email = VALUES(email), gender = VALUES(gender), nationality = VALUES(nationality), " +
+                         "dob = VALUES(dob), username = VALUES(username), password = VALUES(password), role = VALUES(role)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            pstmt.setString(2, null);  // Employees don’t have passport numbers
+            pstmt.setString(3, firstname);
+            pstmt.setString(4, lastname);
+            pstmt.setString(5, tel);
+            pstmt.setString(6, email);
+            pstmt.setString(7, gender);
+            pstmt.setString(8, nationality);
+            pstmt.setString(9, dob);
+            pstmt.setString(10, username);
+            pstmt.setString(11, password);
+            pstmt.setString(12, role);
+            pstmt.executeUpdate();
         }
     }
 

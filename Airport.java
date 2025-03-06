@@ -1,5 +1,11 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import USER.DatabaseUtil;
+
 public class Airport {
-    private String code ;
+    private String code;
     private String name;
     private String location;
     private int openyear;
@@ -8,6 +14,7 @@ public class Airport {
     private boolean international;
 
     public Airport(String code, String name, String location, int openyear, String country, double totalPassengerTraffic, boolean international) {
+        validateInputs(code, name, location, openyear, country, totalPassengerTraffic);
         this.code = code;
         this.name = name;
         this.location = location;
@@ -16,78 +23,37 @@ public class Airport {
         this.totalPassengerTraffic = totalPassengerTraffic;
         this.international = international;
     }
-    
-    public String getCode() {
-        return code;
+
+    private void validateInputs(String code, String name, String location, int openyear, String country, double totalPassengerTraffic) {
+        if (code == null || code.trim().length() != 3) throw new IllegalArgumentException("Code must be a 3-letter string");
+        if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Name cannot be null or empty");
+        if (location == null || location.trim().isEmpty()) throw new IllegalArgumentException("Location cannot be null or empty");
+        if (openyear < 1900 || openyear > java.time.Year.now().getValue()) throw new IllegalArgumentException("Open year must be between 1900 and current year");
+        if (country == null || country.trim().isEmpty()) throw new IllegalArgumentException("Country cannot be null or empty");
+        if (totalPassengerTraffic < 0) throw new IllegalArgumentException("Total passenger traffic cannot be negative");
     }
-    public void setCode(String code) {
-        if (code != null && !code.trim().isEmpty() && code.length() == 3) {
-            this.code = code;
-        } else {
-            System.out.println("Invalid code: Code must be a 3-letter string.");
+
+    public void saveToDatabase() throws SQLException {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String sql = "INSERT INTO airports (code, name, location, open_year, country, total_passenger_traffic, international) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            // pstmt.setString(1, code);
+            pstmt.setString(2, name);
+            pstmt.setString(3, location);
+            pstmt.setInt(4, openyear);
+            pstmt.setString(5, country);
+            pstmt.setDouble(6, totalPassengerTraffic);
+            pstmt.setBoolean(7, international);
+            pstmt.executeUpdate();
         }
     }
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        if (name != null && !name.trim().isEmpty()) {
-            this.name = name;
-        } else {
-            System.out.println("Invalid name: Name cannot be empty.");
-        }
-    }
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        if (location != null && !location.trim().isEmpty()) {
-            this.location = location;
-        } else {
-            System.out.println("Invalid location: Location cannot be empty.");
-        }
-    }
-    public int getOpenyear() {
-        return openyear;
-    }
-    public void setOpenyear(int openYear) {
-        if (openYear > 1900 && openYear <= 2025) {
-            this.openyear = openYear;
-        } else {
-            System.out.println("Invalid open year: Year must be between 1900 and 2025.");
-        }
-    }
-    public String getCountry() {
-        return country;
-    }
-    public void setCountry(String country) {
-        if (country != null && !country.trim().isEmpty()) {
-            this.country = country;
-        } else {
-            System.out.println("Invalid country: Country cannot be empty.");
-        }
-    }
-    public void setTotalPassengerTraffic(double totalPassengerTraffic, double passengerIncrease) {
-        this.totalPassengerTraffic = totalPassengerTraffic +  passengerIncrease;
-    }
-    public double getTotalPassengerTraffic() {
-        return totalPassengerTraffic;
-    }
-    public boolean isInternational() {
-        return international;
-    }
-    public void setInternational(boolean international) {
-        this.international = international;
-    }
-    public static void main(String[] args){
-        Airport airport = new Airport("NYC", "New York City", "New York", 1920, "USA", 10000000, true);
-        System.out.println("Airport Details:");
-        System.out.println("Code: " + airport.getCode());
-        System.out.println("Name: " + airport.getName());
-        System.out.println("Location: " + airport.getLocation());
-        System.out.println("Open Year: " + airport.getOpenyear());
-        System.out.println("Country: " + airport.getCountry());
-        System.out.println("Total Passenger Traffic: " + airport.getTotalPassengerTraffic());
-    }
+    // public String getCode() { return code; }
+    public String getName() { return name; }
+    public String getLocation() { return location; }
+    public int getOpenyear() { return openyear; }
+    public String getCountry() { return country; }
+    public double getTotalPassengerTraffic() { return totalPassengerTraffic; }
+    public boolean isInternational() { return international; }
 }
